@@ -1,0 +1,14 @@
+{
+  "name": "tftbettracker",
+  "version": "1.0.0",
+  "description": "LP Tracker",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Justin Oswald",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.8.1"
+  }
+}
