@@ -1,4 +1,5 @@
 {
+    "#TODO" : "Rename this file to keys.json",
     "type": "module",
     "DiscordAPIKey":"X",
     "RiotAPIKey":"X"
