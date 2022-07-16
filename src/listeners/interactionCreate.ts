@@ -1,15 +1,15 @@
-import { BaseCommandInteraction, Client, Interaction } from "discord.js";
+import { CommandInteraction, Client, Interaction, ContextMenuInteraction } from "discord.js";
 import { Commands } from "../commands";
 
 export default (client: Client): void => {
     client.on("interactionCreate", async (interaction: Interaction) => {
-        if (interaction.isCommand() || interaction.isContextMenu()) {
+        if (interaction.isCommand()) {
             await slashHandler(client, interaction);
         }
     })
 };
 
-const slashHandler = async (client: Client, interaction: BaseCommandInteraction): Promise<void> => {
+const slashHandler = async (client: Client, interaction: CommandInteraction): Promise<void> => {
     const slashCommand = Commands.find(c => c.name === interaction.commandName);
     if (!slashCommand) {
         interaction.followUp({ content: "Error handling slash command!"})
@@ -18,5 +18,5 @@ const slashHandler = async (client: Client, interaction: BaseCommandInteraction)
 
     await interaction.deferReply();
 
-    slashCommand.run(client, interaction);
+    slashCommand.handleData(client, interaction);
 };

@@ -1,4 +1,4 @@
-import { BaseCommandInteraction, Client, Message } from "discord.js";
+import { CommandInteraction, Client } from "discord.js";
 import { Command } from "../command";
 import grabProfile from "../funcs/grabProfile";
 
@@ -8,19 +8,28 @@ export const TFTprofile: Command = {
     name: "tftprofile",
     description: "Returns a TFT profile",
     type: "CHAT_INPUT",
-    run: async (client: Client, interaction: BaseCommandInteraction) => {
-        const temp = await grabProfile("Zunatobi", "summonerLevel");
+    options: [
+        {
+            name: "username",
+            description: "Enter your League of Legends profile",
+            required: true,
+            type: "STRING"
+        }
+    ],
+    async handleData(client: Client, interaction: CommandInteraction) {
 
-        const content = `${temp}`;
+        const temp = interaction.options.getString("username", true);
+        const user = await grabProfile(`${temp}` , "summonerLevel");
+        const content = `${user}`;
         
         //DEBUG
         console.log("\n##########################################")
+        console.log(user);
         console.log(content);
         console.log("##########################################\n")
         //DEBUG
 
         await interaction.followUp({
-            ephemeral: true,
             content
         })
     }
