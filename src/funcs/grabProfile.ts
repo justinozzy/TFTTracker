@@ -5,8 +5,6 @@ import fetch from 'node-fetch';
 
 //NOTE: THE JOB OF THIS FUNCTION IS TO GATHER ALL THE INFORMATION FROM THE RIOT API
 
-//Are name and ch supposed to be chars or strings? who fucking knows! ill figure out later
-
 export default async function grabProfile(name:string, ch:string) {
     //Riot Games API link and accessor
     const RiotAPILink = `https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-name/${name}?api_key=${key.RiotAPIKey}`;

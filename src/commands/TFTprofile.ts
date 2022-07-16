@@ -30,14 +30,18 @@ export const TFTprofile: Command = {
         }
     ],
     async handleData(client: Client, interaction: CommandInteraction) {
+        //Initialize array for future summoners
         const riotUsers: RiotUser[] = [];
 
+        //Iterate through all username parameters
         for (let i = 1; i < 4; i++){
-            console.log(i);
+            //Check username at i
             if (interaction.options.getString(`username${i}`)){
+                //Get the username from the options given above
                 const user = interaction.options.getString(`username${i}`, true);
+                //Grab summonerLevel from user profile
                 const summonerLevel = await grabProfile(`${user}` , "summonerLevel")
-
+                //Store the username and level in riotUsers array
                 riotUsers.push({username:user, level:summonerLevel});
             }
             else {
