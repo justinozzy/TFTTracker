@@ -1,7 +1,7 @@
 import { CommandInteraction, Client } from "discord.js";
 import { RiotUser } from "src/funcs/RiotUsers";
 import { Command } from "../command";
-import grabProfile from "../funcs/GrabProfile";
+import callRiotAPI from "../funcs/GrabProfile";
 
 //NOTE: THE JOB OF THIS DISCORD COMMAND IS TO MAKE THE DATA FROM grabProfile LOOK PRETTY IN A DISCORD EMBED
 
@@ -40,7 +40,12 @@ export const TFTprofile: Command = {
                 //Get the username from the options given above
                 const user = interaction.options.getString(`username${i}`, true);
                 //Grab summonerLevel from user profile
-                const summonerLevel = await grabProfile(`${user}` , "summonerLevel")
+                const summonerLevel = await callRiotAPI(`${user}` , "summonerLevel")
+                
+                if (summonerLevel === -1) {
+                    console.log("Invalid profile name, retry.");
+                    break;
+                }
                 //Store the username and level in riotUsers array
                 riotUsers.push({username:user, level:summonerLevel});
             }
