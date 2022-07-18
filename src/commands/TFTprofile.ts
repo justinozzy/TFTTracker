@@ -40,21 +40,20 @@ export const TFTprofile: Command = {
                 //Get the username from the options given above
                 const user = interaction.options.getString(`username${i}`, true);
                 //Grab summonerLevel from user profile
-                const summonerLevel = await callRiotAPI(`${user}` , "summonerLevel")
-                
-                if (summonerLevel === -1) {
-                    console.log("Invalid profile name, retry.");
+                const id = await callRiotAPI(`${user}` , "id")
+                //Check if the profile wasn't acquired successfully (Error: -1)
+                if (id == '-1') {
                     break;
                 }
                 //Store the username and level in riotUsers array
-                riotUsers.push({username:user, level:summonerLevel});
+                riotUsers.push({username:user, id:id});
             }
             else {
                 break;
             }
         }
 
-        const content = `${riotUsers.forEach(user => {console.log(user.level)})}`;
+        const content = `${riotUsers.forEach(user => {console.log(user.id)})}`;
         
         //DEBUG
         console.log("\n##########################################")

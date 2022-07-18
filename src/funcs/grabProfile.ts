@@ -6,7 +6,7 @@ import fetch from 'node-fetch';
 //NOTE: THE JOB OF THIS FUNCTION IS TO GATHER ALL THE INFORMATION FROM THE RIOT API
 async function getRiotAccount(name:string, ch:string) {
     //Riot Games API link and accessor
-    const RiotAPILink = `https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-name/${name}?api_key=${key.RiotAPIKey}`;
+    const RiotAPILink = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${key.RiotAPIKey}`;
     const response = await fetch(RiotAPILink);
 
     //Look at these later for API limiting
@@ -19,16 +19,16 @@ async function getRiotAccount(name:string, ch:string) {
     console.log("\n******************************************");
     console.log(info);
     console.log("******************************************");
-    console.log(info.summonerLevel);
+    console.log(info.id);
     console.log("******************************************");
     console.log(`Name: ${name}`);
     console.log(`ch: ${ch}`);
     console.log("******************************************\n");
     //DEBUG
 
-    if (ch == "summonerLevel") {
-        //Check if the returned level is valid and return level if true: -1 false
-        return info.summonerLevel ? info.summonerLevel : -1;
+    if (ch == "id") {
+        //Check if the returned id is valid and return id if true: -1 false
+        return info.id ? info.id : -1;
     }
     else {
         console.log("Error acquiring profile.");
@@ -36,7 +36,7 @@ async function getRiotAccount(name:string, ch:string) {
     }
 }
 
-export default async function callRiotAPI(name:string, ch:string): Promise<number> {
+export default async function callRiotAPI(name:string, ch:string): Promise<string> {
     //TokenBucket to limit API Requests (https://www.npmjs.com/package/tokenbucket)
     var TokenBucket = require('tokenbucket');
     
