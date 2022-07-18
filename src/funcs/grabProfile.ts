@@ -1,34 +1,33 @@
 import key from "../constants/keys.json";
 import fetch from 'node-fetch';
+import { RiotUser } from "src/funcs/RiotUsers";
 
 //https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-name/${name}?api_key=${RiotAPIKey}...
 
 //NOTE: THE JOB OF THIS FUNCTION IS TO GATHER ALL THE INFORMATION FROM THE RIOT API
 async function getRiotAccount(name:string, ch:string) {
     //Riot Games API link and accessor
-    const RiotAPILink = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${key.RiotAPIKey}`;
-    const response = await fetch(RiotAPILink);
+    const riotAPIID = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${key.RiotAPIKey}`;
+    let idResponse = await fetch(riotAPIID);
+    let idInfo = await idResponse.json();
+    let id = ""
 
-    //Look at these later for API limiting
-    console.log(response.status, response.headers);
-
-    //Gather the json data from Riot's API
-    let info = await response.json();
-
-    //DEBUG
-    console.log("\n******************************************");
-    console.log(info);
-    console.log("******************************************");
-    console.log(info.id);
-    console.log("******************************************");
-    console.log(`Name: ${name}`);
-    console.log(`ch: ${ch}`);
-    console.log("******************************************\n");
-    //DEBUG
+    console.log(idInfo)
 
     if (ch == "id") {
         //Check if the returned id is valid and return id if true: -1 false
-        return info.id ? info.id : -1;
+        id = idInfo.id;
+        //TFT Ranked info (has to be created here or id will be empty in riotAPIRankedInfo)
+        const riotAPIRankedInfo = `https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}?api_key=${key.RiotAPIKey}`
+        let rankResponse = await fetch(riotAPIRankedInfo);
+        let rankInfo = await rankResponse.json();
+        let rankArray = [];
+
+        //Store all the ranked information in an array
+        rankArray.push(rankInfo[0].tier, rankInfo[0].rank, rankInfo[0].leaguePoints);
+
+        //Return above array if valid (-1 invalid)
+        return rankArray ? rankArray : -1;
     }
     else {
         console.log("Error acquiring profile.");
@@ -55,8 +54,8 @@ export default async function callRiotAPI(name:string, ch:string): Promise<strin
         parentBucket: parentTokenBucket
     });
 
-    return tokenBucket.removeTokens(1).then(async function(remainingTokens:number){
-        console.log('1 token removed,' + remainingTokens + ' tokens left');
+    return tokenBucket.removeTokens(2).then(async function(remainingTokens:number){
+        console.log('2 tokens removed,' + remainingTokens + ' tokens left');
         //Call RiotAccount helper
         return await getRiotAccount(name, ch);
     })
