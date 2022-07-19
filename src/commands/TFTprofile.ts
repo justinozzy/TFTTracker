@@ -1,6 +1,7 @@
 import { CommandInteraction, Client } from "discord.js";
-import { RiotUser } from "src/funcs/RiotUsers";
+import { RiotRank, RiotUser } from "src/funcs/RiotUsers";
 import { Command } from "../command";
+import sortUsers from "../funcs/SortUsers";
 import callRiotAPI from "../funcs/GrabProfile";
 
 //NOTE: THE JOB OF THIS DISCORD COMMAND IS TO MAKE THE DATA FROM grabProfile LOOK PRETTY IN A DISCORD EMBED
@@ -31,7 +32,9 @@ export const TFTprofile: Command = {
     ],
     async handleData(client: Client, interaction: CommandInteraction) {
         //Initialize array for future summoners
-        const riotUsers: RiotUser[] = [];
+        let riotUsers: RiotUser[] = [];
+
+        //let totalUsers: number = 0;
 
         //Iterate through all username parameters
         for (let i = 1; i < 4; i++){
@@ -40,24 +43,32 @@ export const TFTprofile: Command = {
                 //Get the username from the options given above
                 const user = interaction.options.getString(`username${i}`, true);
                 //Grab summonerLevel from user profile
-                const rank = await callRiotAPI(`${user}` , "id")
+                const rank: RiotRank | undefined = await callRiotAPI(`${user}` , "id");
                 //Check if the profile wasn't acquired successfully (Error: -1)
-                if (rank == undefined) {
+                if (rank === undefined || rank.tier === undefined) {
                     break;
                 }
                 //Store the username and level in riotUsers array
-                riotUsers.push({username:user, rank:rank});
+                riotUsers.push({username: user, rank:rank});
+
+                //totalUsers++;
             }
             else {
                 break;
             }
         }
 
-        const content = `${riotUsers.forEach(user => {console.log(user.id)})}`;
+        //Sort the accounts by rank
+        console.log("Pre-Sort: " + JSON.stringify(riotUsers, null, 2))
+        riotUsers = sortUsers(riotUsers);
+
+        //`${riotUsers.forEach(() => {`${console.log(riotUsers[0].username)}`})}`
+        const content = `TEMP: ${riotUsers[0].username}`;
         
         //DEBUG
         console.log("\n##########################################")
-        console.log(riotUsers);
+        console.log("Post-Sort: " + JSON.stringify(riotUsers, null, 2));
+        console.log(riotUsers[0].rank);
         console.log(content);
         console.log("##########################################\n")
         //DEBUG
