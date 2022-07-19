@@ -34,7 +34,8 @@ export const TFTprofile: Command = {
         //Initialize array for future summoners
         let riotUsers: RiotUser[] = [];
 
-        //let totalUsers: number = 0;
+        //Track number of accounts requested
+        let totalUsers: number = 0;
 
         //Iterate through all username parameters
         for (let i = 1; i < 4; i++){
@@ -50,24 +51,23 @@ export const TFTprofile: Command = {
                 }
                 //Store the username and level in riotUsers array
                 riotUsers.push({username: user, rank:rank});
-
-                //totalUsers++;
+                totalUsers++;
             }
             else {
                 break;
             }
         }
 
-        //Sort the accounts by rank
-        console.log("Pre-Sort: " + JSON.stringify(riotUsers, null, 2))
-        riotUsers = sortUsers(riotUsers);
+        //Check if there is more than one summoner in riotUsers
+        if (!(totalUsers <= 1)){
+            riotUsers = sortUsers(riotUsers);
+        }
 
-        //`${riotUsers.forEach(() => {`${console.log(riotUsers[0].username)}`})}`
         const content = `TEMP: ${riotUsers[0].username}`;
         
         //DEBUG
         console.log("\n##########################################")
-        console.log("Post-Sort: " + JSON.stringify(riotUsers, null, 2));
+        //console.log("Post-Sort: " + JSON.stringify(riotUsers, null, 2));
         console.log(riotUsers[0].rank);
         console.log(content);
         console.log("##########################################\n")

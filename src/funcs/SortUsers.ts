@@ -22,7 +22,7 @@ export default function sortUsers (data: RiotUser[]): RiotUser[] {
     })
 
     //DEBUG
-    console.log(data)
+    console.log('Sorting complete.')
     //DEBUG
 
     return data;
