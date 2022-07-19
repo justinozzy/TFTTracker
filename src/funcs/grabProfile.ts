@@ -3,8 +3,6 @@ import fetch from 'node-fetch';
 import { getRankTier, getRankDivision} from "./RankEnums";
 import { RiotRank } from "./RiotUsers";
 
-//https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-name/${name}?api_key=${RiotAPIKey}...
-
 //NOTE: THE JOB OF THIS FUNCTION IS TO GATHER ALL THE INFORMATION FROM THE RIOT API
 async function getRiotAccount(name:string, ch:string): Promise<RiotRank | undefined> {
     //Riot Games API link and accessor
@@ -16,6 +14,7 @@ async function getRiotAccount(name:string, ch:string): Promise<RiotRank | undefi
     if (ch == "id") {
         //Check if the returned id is valid and return id if true: -1 false
         id = idInfo.id;
+        
         //TFT Ranked info (has to be created here or id will be empty in riotAPIRankedInfo)
         const riotAPIRankedInfo = `https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}?api_key=${key.RiotAPIKey}`
         let rankResponse = await fetch(riotAPIRankedInfo);
