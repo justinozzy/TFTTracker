@@ -3,7 +3,7 @@ import { RiotRank, RiotUser } from "src/funcs/RiotUsers";
 import { Command } from "../command";
 import { rankDivision, rankTier } from "../funcs/RankEnums";
 import sortUsers from "../funcs/SortUsers";
-import callRiotAPI from "../funcs/GrabProfile";
+import callRiotAPI from "../funcs/grabProfile";
 
 
 //NOTE: THE JOB OF THIS DISCORD COMMAND IS TO MAKE THE DATA FROM grabProfile LOOK PRETTY IN A DISCORD EMBED

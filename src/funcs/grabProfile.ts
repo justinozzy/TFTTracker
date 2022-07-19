@@ -20,8 +20,10 @@ async function getRiotAccount(name:string, ch:string): Promise<RiotRank | undefi
         let rankResponse = await fetch(riotAPIRankedInfo);
         let rankInfo = await rankResponse.json();
 
+        console.log(riotAPIRankedInfo)
+
         //Check if user has a rank
-        if (!rankInfo || rankInfo.length == 0) {
+        if (!rankInfo || rankInfo == undefined) {
             return undefined;
         }
 
