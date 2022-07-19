@@ -87,7 +87,7 @@ export const TFTprofile: Command = {
         }
 
         //Post embed to discord
-        await interaction.reply(
+        await interaction.followUp(
             {embeds: [summonerEmbed]}
         );
     }
