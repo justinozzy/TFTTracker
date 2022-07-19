@@ -16,7 +16,5 @@ const slashHandler = async (client: Client, interaction: CommandInteraction): Pr
         return;
     }
 
-    await interaction.deferReply();
-
     slashCommand.handleData(client, interaction);
 };

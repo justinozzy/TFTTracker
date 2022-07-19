@@ -1,11 +1,8 @@
-import { rankTier } from "./RankEnums";
+import { rankTier } from "./RankEnums"
 import { RiotUser } from "./RiotUsers"
 
 export default function sortUsers (data: RiotUser[]): RiotUser[] {
     data.sort((a, b) =>{
-
-        //console.log(rankTier[a.rank.tier]) <--- will need later
-
         //Sort the accounts based on tier, division, and lp (-1: a before b, 1: a after b, 0: do nothing)
         if (a.rank.tier == b.rank.tier) {
             if (a.rank.division == b.rank.division) {
@@ -21,9 +18,7 @@ export default function sortUsers (data: RiotUser[]): RiotUser[] {
         }
     })
 
-    //DEBUG
     console.log('Sorting complete.')
-    //DEBUG
 
     return data;
 }

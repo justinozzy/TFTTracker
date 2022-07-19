@@ -1,11 +1,12 @@
-import { CommandInteraction, Client } from "discord.js";
+import { CommandInteraction, Client, MessageEmbed, MessageAttachment, DiscordAPIError, Message } from "discord.js";
 import { RiotRank, RiotUser } from "src/funcs/RiotUsers";
 import { Command } from "../command";
+import { rankDivision, rankTier } from "../funcs/RankEnums";
 import sortUsers from "../funcs/SortUsers";
 import callRiotAPI from "../funcs/GrabProfile";
 
-//NOTE: THE JOB OF THIS DISCORD COMMAND IS TO MAKE THE DATA FROM grabProfile LOOK PRETTY IN A DISCORD EMBED
 
+//NOTE: THE JOB OF THIS DISCORD COMMAND IS TO MAKE THE DATA FROM grabProfile LOOK PRETTY IN A DISCORD EMBED
 export const TFTprofile: Command = {
     name: "tftprofile",
     description: "Returns a TFT profile",
@@ -63,18 +64,29 @@ export const TFTprofile: Command = {
             riotUsers = sortUsers(riotUsers);
         }
 
-        const content = `TEMP: ${riotUsers[0].username}`;
-        
-        //DEBUG
-        console.log("\n##########################################")
-        //console.log("Post-Sort: " + JSON.stringify(riotUsers, null, 2));
-        console.log(riotUsers[0].rank);
-        console.log(content);
-        console.log("##########################################\n")
-        //DEBUG
+        //TFT Image Constants
+        const tftIcon = 'https://images.contentstack.io/v3/assets/blt0eb2a2986b796d29/bltf3a04d9af77c8483/6216af02d4d6d062eec35cb3/TFT_Logomark_Gold.png?&height=50&disable=upscale';
+        const tftThumbnail = 'https://static.wikia.nocookie.net/leagueoflegends/images/6/60/Reckoning_TFT_set_icon.png/revision/latest/scale-to-width-down/76?cb=20210430004941';
 
-        await interaction.followUp({
-            content
-        })
+        //Create embed
+        const summonerEmbed = new MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('TFT RANK TRACKER')
+        .setAuthor({ name: interaction.user.tag, iconURL: tftIcon})
+        .setThumbnail(tftThumbnail)
+
+        //Create embed fields based on number of users
+        for (let i = 0; i < totalUsers; i++) {
+            let tierString = rankTier[riotUsers[i].rank.tier];
+            let divString = rankDivision[riotUsers[i].rank.division];
+            let lpString = riotUsers[i].rank.lp;
+
+            summonerEmbed.addField(riotUsers[i].username, `${tierString} ${divString}: ${lpString} LP`);
+        }
+
+        //Post embed to discord
+        await interaction.reply(
+            {embeds: [summonerEmbed]}
+        );
     }
 }
