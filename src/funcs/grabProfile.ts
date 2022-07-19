@@ -20,18 +20,22 @@ async function getRiotAccount(name:string, ch:string): Promise<RiotRank | undefi
         let rankResponse = await fetch(riotAPIRankedInfo);
         let rankInfo = await rankResponse.json();
 
-        console.log(riotAPIRankedInfo)
-
         //Check if user has a rank
         if (!rankInfo || rankInfo == undefined) {
             return undefined;
         }
 
+        //Scuffed solution of dealing with people who have TFT Turbo ranks
+        let i = 0;
+        if (rankInfo[0].queueType == 'RANKED_TFT_TURBO') {
+            i = 1;
+        } 
+
         //Store all the ranked information in an interface
         let riotRank: RiotRank = {
-            tier: getRankTier(rankInfo[0].tier),
-            division: getRankDivision(rankInfo[0].rank),
-            lp: rankInfo[0].leaguePoints as number
+            tier: getRankTier(rankInfo[i].tier),
+            division: getRankDivision(rankInfo[i].rank),
+            lp: rankInfo[i].leaguePoints as number
         };
 
         //Return above array if valid
