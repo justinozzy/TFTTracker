@@ -72,8 +72,10 @@ export const TFTprofile: Command = {
         const summonerEmbed = new MessageEmbed()
         .setColor('#0099ff')
         .setTitle('TFT RANK TRACKER')
+        .setURL('https://github.com/justinozzy/TFTTracker')
         .setAuthor({ name: interaction.user.tag, iconURL: tftIcon})
         .setThumbnail(tftThumbnail)
+        .setTimestamp();
 
         //Create embed fields based on number of users
         for (let i = 0; i < totalUsers; i++) {
