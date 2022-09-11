@@ -9,7 +9,7 @@ Example of starting the bot:
 ![Starting bot](/gifs/Code_r13ytawZvd.gif)
 
 Bot retrieving information and how to use:
-![Retrieving info]()
+![Retrieving info](/gifs/Discord_BmM1i87so5.gif)
 
 npm start
 ### *Dependencies:*
