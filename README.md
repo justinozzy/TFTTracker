@@ -5,6 +5,7 @@ This is the repository for the TFTTracker bot for discord which gathers up to th
 
 
 Example of starting the bot:
+
 ![Starting bot](/gifs/Code_r13ytawZvd.gif)
 
 Bot retrieving information and how to use:
