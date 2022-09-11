@@ -14,13 +14,18 @@ npm start
 ### *Dependencies:*
 ---
 > https://www.npmjs.com/package/tokenbucket
+>
 > https://www.npmjs.com/package/ts-node
+>
 > https://www.npmjs.com/package/tslib
+>
 > https://www.npmjs.com/package/@types/node
+>
 > https://discord.js.org/#/
 
 
 ### *Useful Resources:*
 ---
 > https://discordjs.guide/#before-you-begin
+>
 > https://sabe.io/tutorials/how-to-build-discord-bot-typescript
