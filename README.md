@@ -30,3 +30,5 @@ Bot retrieving information and how to use:
 > https://discordjs.guide/#before-you-begin
 >
 > https://sabe.io/tutorials/how-to-build-discord-bot-typescript
+
+*Archived on September 23, 2022*
